@@ -1,7 +1,23 @@
 ---
+import { Icon } from 'astro-icon/components'
+
 const today = new Date()
 ---
 
-<footer class="flex flex-col justify-center py-16 text-center">
+<footer class="flex justify-between py-8 border-t border-bg-muted mt-4 text-center">
   &copy; {today.getFullYear()} Mohd Haooon. All rights reserved.
+  <div class="flex justify-center mb-4 gap-4">
+    <a href="https://github.com/HaroonSaifi17">
+      <Icon name="lucide:github" size="24px" class="hover:text-accent" />
+    </a>
+    <a href="https://www.linkedin.com/in/haroon-saifi-17/">
+      <Icon name="lucide:linkedin" size="24px" class="hover:text-accent" />
+    </a>
+    <a href="https://twitter.com/HaroonSaifi17">
+      <Icon name="lucide:twitter" size="24px" class="hover:text-accent" />
+    </a>
+    <a href="mailto:haroondev2@gmail.com">
+      <Icon name="lucide:mail" size="24px" class="hover:text-accent" />
+    </a>
+  </div>
 </footer>
