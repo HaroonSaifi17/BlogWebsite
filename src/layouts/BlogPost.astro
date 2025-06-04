@@ -4,43 +4,76 @@ import BaseHead from '../components/BaseHead.astro'
 import Header from '../components/Header.astro'
 import Footer from '../components/Footer.astro'
 import FormattedDate from '../components/FormattedDate.astro'
+import { Icon } from 'astro-icon/components'
+import { getCollection } from 'astro:content'
 
 type Props = CollectionEntry<'blog'>['data']
 
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+)
+
 const { title, description, pubDate, updatedDate, heroImage } = Astro.props
+
+const currentPostIndex = posts.findIndex((post) => post.data.title === title)
+const nextPost = currentPostIndex > 0 ? posts[currentPostIndex - 1] : null
 ---
 
 <html lang="en">
   <head>
     <BaseHead title={title} description={description} />
   </head>
-
   <body>
     <Header />
-    <main class="flex flex-col justify-center max-w-4xl mx-auto">
+    <main #top class="flex flex-col justify-center max-w-4xl mx-auto">
       <article>
-        <div class="rounded-2xl overflow-hidden my-6 shadow-lg">
-          {heroImage && <img width={1020} height={510} src={heroImage} alt="" />}
+        <div class="rounded-2xl border border-border overflow-hidden my-6 shadow-lg">
+          {heroImage && <img class="object-cover w-full " src={heroImage} alt="" />}
         </div>
         <div class="prose">
-          <div class="title">
-            <div class="date">
+          <div class="p-0 m-0 h-auto">
+            <div class="text-lg mb-2">
               <FormattedDate date={pubDate} />
-              {
-                updatedDate && (
-                  <div class="last-updated-on">
-                    Last updated on <FormattedDate date={updatedDate} />
-                  </div>
-                )
-              }
             </div>
             <h1>{title}</h1>
+            {
+              updatedDate && (
+                <div class="flex [&_*]:m-0 [&_*]:p-0 justify-start flex-wrap gap-x-4 items-center">
+                  <p>
+                    Last updated on <FormattedDate date={updatedDate} />
+                  </p>
+                  <a
+                    class="flex gap-1 items-center hover:!text-primary !text-secondary-foreground"
+                    href={`https://github.com/HaroonSaifi17/BlogWebsite/tree/main/${posts[currentPostIndex].filePath}`}
+                  >
+                    <Icon name="lucide:edit" /> Suggest Changes
+                  </a>
+                </div>
+              )
+            }
             <hr />
           </div>
           <slot />
         </div>
       </article>
     </main>
+    <section class="flex justify-between items-center my-12">
+      <button
+        class="flex gap-2 cursor-pointer items-center hover:text-primary"
+        onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+      >
+        <Icon name="lucide:chevron-up" /> Back to Top
+      </button>
+      <button
+        class={`flex gap-2 items-center hover:text-primary ${
+          nextPost ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+        }`}
+        onclick={nextPost ? `window.location.href='/blog/${nextPost.id}'` : null}
+      >
+        Next Post
+        <Icon name="lucide:chevron-right" />
+      </button>
+    </section>
     <Footer />
   </body>
 </html>

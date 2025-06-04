@@ -1,13 +1,9 @@
-.prose {
-  max-width: 100%;
-}
-
 h3 code {
   @apply !text-lg md:!text-xl;
 }
 
 pre {
-  @apply rounded-lg !px-0;
+  @apply rounded-lg border border-slate-800 !px-0;
 }
 
 code {

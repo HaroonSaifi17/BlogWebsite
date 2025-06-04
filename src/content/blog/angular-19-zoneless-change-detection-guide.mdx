@@ -1,0 +1,150 @@
+---
+title: 'Angular 19 Zoneless Change Detection Guide'
+description: 'how to set up a zoneless Angular project and use Signals for efficient change detection.'
+pubDate: 'Dec 15 2024'
+updatedDate: 'Dec 15 2024'
+heroImage: '/images/angular-19-thumbnail.webp'
+---
+
+## Why Should You Care About Zoneless Angular?
+
+Angular 19 makes your apps faster - much faster. By removing Zone.js, your app can run up to 40% quicker. Think of Zone.js as a watchdog that constantly checks for changes in your app. Now, we can tell Angular exactly when to check for updates, making everything smoother.
+
+## Quick Setup Guide (5 Minutes)
+
+Want better performance? Let's set up a zoneless Angular project:
+
+1. Create a Fresh Project
+
+```bash {1}
+ng new my-fast-app
+# Choose your preferred options when prompted
+```
+
+2. Power Up Your App  
+Open `app.config.ts` and add the zoneless magic:
+
+```ts {5} showLineNumbers title="src/app/app.config.ts"
+import { provideExperimentalZonelessChangeDetection } from "@angular/core";
+
+export const appConfig = {
+  providers: [
+    provideExperimentalZonelessChangeDetection(), // This is the secret sauce!
+    provideRouter(routes),
+    provideClientHydration(),
+  ],
+};
+```
+
+3. Remove the Training Wheels  
+Update your `angular.json` - find the "polyfills" section and remove Zone.js:
+
+```json {2} showLineNumbers title="angular.json"
+{
+  "polyfills": [
+    // "zone.js" is now commented out
+  ]
+}
+```
+
+## How to Know It Worked?
+
+Open your browser's console (press F12) and type `window.Zone`. If you see "undefined", congratulations! You're now running Zone-free!
+
+![Console showing Zone.js is removed](/images/console-log.webp)
+
+_Your console should show undefined for the Zone object_
+
+## Making Things Change with Signals
+
+Signals are Angular's new way of handling updates. They're like smart variables that tell Angular when something changes. Here's a simple example:
+
+```ts {11-15} showLineNumbers title="src/app/counter.component.ts"
+import { Component, signal } from "@angular/core";
+
+@Component({
+  selector: "app-counter",
+  template: `
+    <h2>Count: {{ count() }}</h2>
+    <button (click)="increment()">Add One</button>
+  `,
+})
+export class CounterComponent {
+  count = signal(0);
+
+  increment() {
+    this.count.update((n) => n + 1);
+  }
+}
+```
+
+## Signals Quick Start
+
+### Basic Signal Usage
+
+```ts {9-11} showLineNumbers title="src/app/counter.component.ts"
+@Component({
+  selector: "app-counter",
+  template: `
+    <h2>Count: {{ count() }}</h2>
+    <button (click)="increment()">+1</button>
+  `,
+})
+export class CounterComponent {
+  count = signal(0);
+  increment() {
+    this.count.update((n) => n + 1);
+  }
+}
+```
+
+### Computed Values
+
+```ts {6} showLineNumbers title="src/app/price.component.ts"
+@Component({
+  template: `<p>Total: ${{ total() }}</p>`
+})
+export class PriceComponent {
+  price = signal(10);
+  quantity = signal(2);
+  total = computed(() => this.price() * this.quantity());
+}
+```
+
+### Effects for Side Effects
+
+```ts {5-7} showLineNumbers title="src/app/theme.component.ts"
+export class ThemeComponent {
+  theme = signal("light");
+
+  constructor() {
+    effect(() => {
+      document.body.classList.toggle("dark", this.theme() === "dark");
+    });
+  }
+}
+```
+
+### RxJS Integration
+
+```ts {4} showLineNumbers title="src/app/clock.component.ts"
+@Component({
+  template: `<p>Time: {{ time() }}</p>`,
+})
+export class ClockComponent {
+  time = toSignal(interval(1000), { initialValue: 0 });
+}
+```
+
+## Tips for Success
+
+- Use signals for values that change over time  
+- Prefer `computed()` for derived values  
+- Use `effect()` sparingly, mainly for side effects  
+- Remember: signals are synchronous  
+
+## Want to Learn More?
+
+- Check out the [official Angular Signals guide](https://angular.dev/guide/signals)  
+- Join the [Angular Discord community](https://discord.gg/angular)  
+
