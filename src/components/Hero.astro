@@ -1,0 +1,75 @@
+---
+import { Icon } from 'astro-icon/components'
+---
+
+<section class="text-[var(--white)] mt-24 md:mt-0" id="home">
+  <div class="max-w-5xl mx-auto space-y-8 md:py-24 pb-14">
+    <div class="text-left space-y-4">
+      <p class="text-md md:text-lg text-[var(--white-icon)] shiny-white">Hi, I'm Mohd Haroon</p>
+      <div
+        class="flex flex-col lg:flex-row lg:items-center space-y-4 lg:space-y-0 lg:space-x-8 md:gap-4"
+      >
+        <h1 class="text-[var(--white)] text-5xl md:text-6xl font-medium text-pretty leading-none">
+          Software <br /> Developer
+        </h1>
+        <p class="text-md md:text-2xl text-[var(--white-icon)]">
+          Transforming ideas into interactive and seamless digital experiences with cutting-edge <span
+            class="text-[var(--sec)] shiny-sec">Full-Stack</span
+          > development.
+        </p>
+      </div>
+      <div class="flex justify-start gap-2 pt-3 md:pt-6">
+        <a
+          target="_blank"
+          href="https://github.com/HaroonSaifi17"
+          aria-label="GitHub"
+          class="text-foreground/80 hover:text-foreground transition duration-300 ease-in-out border border-foreground/20 p-3 rounded-xl hover:bg-foreground/10"
+        >
+          <Icon name="mdi:github" class="size-8" />
+        </a>
+        <a
+          target="_blank"
+          href="https://linkedin.com/in/HaroonSaifi17"
+          aria-label="LinkedIn"
+          class="text-foreground/80 hover:text-foreground transition duration-300 ease-in-out border border-foreground/20 p-3 rounded-xl hover:bg-foreground/10"
+        >
+          <Icon name="mdi:linkedin" class="size-8" />
+        </a>
+        <a
+          target="_blank"
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=haroondev2@gmail.com&su=Hey%20OHaroon!"
+          aria-label="Email"
+          class="text-foreground/80 hover:text-foreground transition duration-300 ease-in-out border border-foreground/20 p-3 rounded-xl hover:bg-foreground/10"
+        >
+          <Icon name="mdi:gmail" class="size-8" />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <style is:global>
+    .shiny-sec {
+      background: linear-gradient(
+        135deg,
+        var(--color-primary) 25%,
+        var(--color-foreground) 50%,
+        var(--color-primary) 75%
+      );
+      background-size: 400% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shine 3s linear infinite;
+    }
+
+    @keyframes shine {
+      0% {
+        background-position: 100% 50%;
+      }
+      30%,
+      70% {
+        background-position: 0% 50%;
+      }
+    }
+  </style>
+</section>
