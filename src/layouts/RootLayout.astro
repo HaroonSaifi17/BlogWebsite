@@ -1,0 +1,24 @@
+---
+import BaseHead from '../components/BaseHead.astro'
+import Header from '../components/Header.astro'
+import Footer from '../components/Footer.astro'
+
+const { title, description, image } = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead
+      title={title || 'Mohd Haroon | Full Stack Developer'}
+      description={description ||
+        'Mohd Haroon is a full stack developer specializing in modern web technologies, performance-focused design, and intuitive user experiences.'}
+      image={image || '/blog-placeholder-1.jpg'}
+    />
+  </head>
+  <body class="min-h-screen bg-background">
+    <Header />
+    <slot />
+    <Footer />
+  </body>
+</html>

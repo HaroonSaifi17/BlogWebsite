@@ -7,14 +7,14 @@ import react from '@astrojs/react'
 import { transformerCopyButton } from '@rehype-pretty/transformers'
 import tailwindcss from '@tailwindcss/vite'
 
-import icon from 'astro-icon';
+import icon from 'astro-icon'
 
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  site: 'https://example.com',
+  site: 'https://haroon.dev',
   integrations: [mdx(), sitemap(), react(), icon()],
   markdown: {
     syntaxHighlight: false,
@@ -26,7 +26,7 @@ export default defineConfig({
           transformers: [
             transformerCopyButton({
               visibility: 'hover',
-              feedbackDuration: 2_500,
+              feedbackDuration: 2_000,
             }),
           ],
         },
