@@ -40,24 +40,26 @@ const prevPost = currentPostIndex < posts.length - 1 ? posts[currentPostIndex + 
             <FormattedDate date={pubDate} />
           </div>
           <h1>{title}</h1>
-          {
-            updatedDate && (
-              <div class="flex [&_*]:m-0 [&_*]:p-0 justify-start flex-wrap gap-x-4 items-center">
+          <div class="flex [&_*]:m-0 [&_*]:p-0 justify-start flex-wrap gap-x-4 items-center">
+            {
+              updatedDate && (
                 <p>
                   Last updated on <FormattedDate date={updatedDate} />
                 </p>
-                <a
-                  class="flex gap-1 items-center hover:!text-primary !text-secondary-foreground"
-                  href={`https://github.com/HaroonSaifi17/BlogWebsite/tree/main/${posts[currentPostIndex].filePath}`}
-                >
-                  <Icon name="lucide:edit" /> Suggest Changes
-                </a>
-              </div>
-            )
-          }
+              )
+            }
+            <a
+              class="flex gap-1 items-center hover:!text-primary !text-secondary-foreground"
+              href={`https://github.com/HaroonSaifi17/BlogWebsite/tree/main/${posts[currentPostIndex].filePath}`}
+            >
+              <Icon name="lucide:edit" /> Suggest Changes
+            </a>
+          </div>
           <hr />
         </div>
-        <Content />
+        <div class="md:mx-6">
+          <Content />
+        </div>
       </div>
     </article>
   </main>
