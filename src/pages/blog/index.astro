@@ -27,6 +27,7 @@ const hasMorePosts = posts.length > 7
             <a href={`/blog/${featuredPost.id}/`} class="block">
               <div class="relative overflow-hidden">
                 <img
+                  style={`view-transition-name: blog-image-0;`}
                   src={featuredPost.data.heroImage}
                   alt={featuredPost.data.title}
                   class="w-full h-80 max-md:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -60,7 +61,10 @@ const hasMorePosts = posts.length > 7
                 </span>
               </div>
               <div class="p-4 md:p-6">
-                <h2 class="text-lg md:text-2xl font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                <h2
+                  style={`view-transition-name: blog-title-0;`}
+                  class="text-lg md:text-2xl font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors line-clamp-1"
+                >
                   {featuredPost.data.title}
                 </h2>
                 {featuredPost.data.description && (
@@ -79,11 +83,12 @@ const hasMorePosts = posts.length > 7
       otherPosts.length > 0 && (
         <section>
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mb-8">
-            {otherPosts.map((post) => (
+            {otherPosts.map((post, index) => (
               <article class="bg-card rounded-xl shadow-md border-border border overflow-hidden hover:shadow-lg transition-shadow duration-300 group">
                 <a href={`/blog/${post.id}/`} class="block">
                   <div class="relative overflow-hidden">
                     <img
+                      style={`view-transition-name: blog-image-${index + 1};`}
                       src={post.data.heroImage}
                       alt={post.data.title}
                       class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -112,7 +117,10 @@ const hasMorePosts = posts.length > 7
                     </span>
                   </div>
                   <div class="p-4">
-                    <h3 class="text-base font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors line-clamp-1">
+                    <h3
+                      style={`view-transition-name: blog-title-${index + 1};`}
+                      class="text-base font-semibold text-card-foreground mb-2 group-hover:text-primary transition-colors line-clamp-1"
+                    >
                       {post.data.title}
                     </h3>
                     {post.data.description && (

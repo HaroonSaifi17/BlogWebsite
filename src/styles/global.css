@@ -5,6 +5,10 @@
 @import './code.css';
 @custom-variant dark (&:is(.dark *));
 
+@view-transition {
+  navigation: auto;
+}
+
 body {
   @apply bg-background text-foreground/90 mx-auto max-w-5xl px-[5vw];
   font-family: 'Inter', 'Open Sans', Arial, sans-serif;

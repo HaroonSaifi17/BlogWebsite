@@ -32,14 +32,23 @@ const prevPost = currentPostIndex < posts.length - 1 ? posts[currentPostIndex + 
   <main #top class="flex flex-col justify-center max-w-4xl mx-auto">
     <article>
       <div class="rounded-2xl border border-border overflow-hidden my-6 shadow-lg">
-        {heroImage && <img class="object-cover w-full " src={heroImage} alt="" />}
+        {
+          heroImage && (
+            <img
+              style={`view-transition-name: blog-image-${currentPostIndex};`}
+              class="object-cover w-full "
+              src={heroImage}
+              alt=""
+            />
+          )
+        }
       </div>
       <div class="prose dark:prose-invert">
         <div class="p-0 m-0 h-auto">
           <div class="text-lg mb-2">
             <FormattedDate date={pubDate} />
           </div>
-          <h1>{title}</h1>
+          <h1 style={`view-transition-name: blog-title-${currentPostIndex};`}>{title}</h1>
           <div class="flex [&_*]:m-0 [&_*]:p-0 justify-start flex-wrap gap-x-4 items-center">
             {
               updatedDate && (
