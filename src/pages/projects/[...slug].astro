@@ -1,0 +1,109 @@
+---
+import { type CollectionEntry, getCollection } from 'astro:content'
+import { render } from 'astro:content'
+import RootLayout from '../../layouts/RootLayout.astro'
+import FormattedDate from './../../components/FormattedDate.astro'
+import { Icon } from 'astro-icon/components'
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog')
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }))
+}
+
+type Props = CollectionEntry<'blog'>
+
+const post = Astro.props
+const { title, description, pubDate, updatedDate, heroImage } = post.data as Props['data']
+const { Content } = await render(post)
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+)
+
+const currentPostIndex = posts.findIndex((post) => post.data.title === title)
+const nextPost = currentPostIndex > 0 ? posts[currentPostIndex - 1] : null
+const prevPost = currentPostIndex < posts.length - 1 ? posts[currentPostIndex + 1] : null
+---
+
+<RootLayout title={title} description={description}>
+  <main #top class="flex flex-col justify-center max-w-4xl mx-auto">
+    <article>
+      <div class="rounded-2xl border border-border overflow-hidden my-6 shadow-lg">
+        {
+          heroImage && (
+            <img
+              style={`view-transition-name: blog-image-${currentPostIndex};`}
+              class="object-cover w-full "
+              src={heroImage}
+              alt=""
+            />
+          )
+        }
+      </div>
+      <div class="prose dark:prose-invert">
+        <div class="p-0 m-0 h-auto">
+          <div class="text-lg mb-2">
+            <FormattedDate date={pubDate} />
+          </div>
+          <h1 style={`view-transition-name: blog-title-${currentPostIndex};`}>{title}</h1>
+          <div class="flex [&_*]:m-0 [&_*]:p-0 justify-start flex-wrap gap-x-4 items-center">
+            {
+              updatedDate && (
+                <p>
+                  Last updated on <FormattedDate date={updatedDate} />
+                </p>
+              )
+            }
+            <a
+              class="flex gap-1 items-center hover:!text-primary !text-secondary-foreground"
+              href={`https://github.com/HaroonSaifi17/BlogWebsite/tree/main/${posts[currentPostIndex].filePath}`}
+            >
+              <Icon name="lucide:edit" /> Suggest Changes
+            </a>
+          </div>
+          <hr />
+        </div>
+        <div class="md:mx-6">
+          <Content />
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <section
+    class="flex flex-wrap max-sm:justify-center justify-between items-center gap-4 mb-12 mt-24"
+  >
+    <button
+      class="flex gap-2 items-center hover:text-primary cursor-pointer"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      <Icon name="lucide:chevron-up" />
+      Back to Top
+    </button>
+
+    <div class="flex gap-4 flex-row items-center justify-end">
+      <button
+        class={`flex gap-2 items-center hover:text-primary ${
+          prevPost ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+        }`}
+        onclick={prevPost ? `window.location.href='/blog/${prevPost.id}'` : null}
+      >
+        <Icon name="lucide:chevron-left" />
+        Previous Post
+      </button>
+      <span>|</span>
+      <button
+        class={`flex gap-2 items-center hover:text-primary ${
+          nextPost ? 'cursor-pointer' : 'cursor-not-allowed opacity-50'
+        }`}
+        onclick={nextPost ? `window.location.href='/blog/${nextPost.id}'` : null}
+      >
+        Next Post
+        <Icon name="lucide:chevron-right" />
+      </button>
+    </div>
+  </section>
+</RootLayout>
